@@ -1,0 +1,16 @@
+title: "E=mc²+AI³"
+description: "CTF Team"
+baseurl: "/emc2-ai3-teampage"
+url: "https://matistjati.github.io"
+
+# No theme — we roll our own ugly
+theme: null
+
+plugins: []
+
+# Exclude stuff from the build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor/

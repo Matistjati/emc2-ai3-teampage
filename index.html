@@ -1,0 +1,471 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E=mc&#178;+AI&#179; | CTF Team</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url('{{ site.baseurl }}/images/emc2.jpeg');
+      background-repeat: repeat;
+      background-size: auto;
+      font-family: 'VT323', 'Courier New', monospace;
+      font-size: 22px;
+      color: #00ff00;
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.72);
+      min-height: 100vh;
+      padding: 0 0 40px 0;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 10px 10px 10px;
+      border-bottom: 4px double #ff00ff;
+    }
+
+    header h1 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 2.2em;
+      color: #ffff00;
+      text-shadow:
+        3px 3px 0 #ff00ff,
+        6px 6px 0 #00ffff;
+      margin: 0 0 10px 0;
+      letter-spacing: 2px;
+    }
+
+    header .tagline {
+      color: #ff99ff;
+      font-size: 1.1em;
+      font-family: 'VT323', monospace;
+    }
+
+    marquee {
+      color: #ff4444;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.7em;
+      background: #111;
+      padding: 6px 0;
+      border-top: 2px solid #ff0000;
+      border-bottom: 2px solid #ff0000;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    .section {
+      margin: 38px 0;
+      border: 2px solid #00ff00;
+      background: rgba(0, 20, 0, 0.82);
+      padding: 22px 24px;
+      position: relative;
+    }
+
+    .section::before {
+      content: attr(data-title);
+      position: absolute;
+      top: -14px;
+      left: 16px;
+      background: #000;
+      color: #ffff00;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6em;
+      padding: 2px 10px;
+      border: 1px solid #ffff00;
+    }
+
+    h2 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85em;
+      color: #00ffff;
+      margin-top: 0;
+      border-bottom: 1px dashed #00ffff;
+      padding-bottom: 8px;
+    }
+
+    /* === ACHIEVEMENT SECTION === */
+    .achievement-box {
+      border: 3px solid #ffdd00;
+      background: rgba(60, 50, 0, 0.92);
+      padding: 20px 24px;
+      text-align: center;
+      margin: 38px 0;
+      position: relative;
+    }
+
+    .achievement-box::before {
+      content: "🏆 ACHIEVEMENT UNLOCKED 🏆";
+      display: block;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.58em;
+      color: #ffdd00;
+      margin-bottom: 14px;
+    }
+
+    .place {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 2.4em;
+      color: #ff8800;
+      text-shadow: 2px 2px 0 #ffdd00, 4px 4px 0 #884400;
+      display: block;
+      margin: 6px 0;
+    }
+
+    .achievement-box .event-name {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.72em;
+      color: #ffff00;
+      display: block;
+      margin: 8px 0;
+    }
+
+    .achievement-box .sub {
+      color: #aaffaa;
+      font-size: 1em;
+      margin-top: 10px;
+    }
+
+    .achievement-box .swedish-flag {
+      font-size: 2em;
+      display: inline-block;
+      margin: 4px 6px;
+    }
+
+    /* === TEAM MEMBERS === */
+    .members-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      justify-content: center;
+    }
+
+    .member-card {
+      border: 2px solid #00ff88;
+      background: rgba(0, 30, 15, 0.9);
+      padding: 18px 22px;
+      min-width: 200px;
+      flex: 1 1 200px;
+      text-align: center;
+    }
+
+    .member-card .name {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6em;
+      color: #00ff88;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .member-card .avatar {
+      font-size: 2.8em;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .member-card .bio {
+      color: #88ff88;
+      font-size: 0.88em;
+      line-height: 1.4;
+    }
+
+    /* === ABOUT === */
+    .about-text {
+      color: #ccffcc;
+      line-height: 1.6;
+    }
+
+    /* === 88x31 BUTTONS === */
+    .buttons-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 18px;
+      align-items: center;
+    }
+
+    .buttons-row img {
+      image-rendering: pixelated;
+    }
+
+    /* === PROMPT SECTION === */
+    .prompt-section {
+      border: 2px dashed #ff00ff;
+      background: rgba(30, 0, 30, 0.9);
+      padding: 18px 20px;
+      margin: 38px 0;
+      position: relative;
+    }
+
+    .prompt-section::before {
+      content: "// COMPRESSED FORM OF THIS SITE";
+      display: block;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.52em;
+      color: #ff00ff;
+      margin-bottom: 14px;
+    }
+
+    .prompt-text {
+      font-family: 'Courier New', monospace;
+      font-size: 0.82em;
+      color: #ff88ff;
+      white-space: pre-wrap;
+      line-height: 1.6;
+      border-left: 3px solid #ff00ff;
+      padding-left: 14px;
+    }
+
+    /* === FOOTER === */
+    footer {
+      text-align: center;
+      padding: 20px;
+      border-top: 3px double #00ff00;
+      color: #448844;
+      font-size: 0.8em;
+      margin-top: 40px;
+    }
+
+    .blink {
+      animation: blinker 1s step-start infinite;
+    }
+
+    @keyframes blinker {
+      50% { opacity: 0; }
+    }
+
+    a {
+      color: #ffff00;
+      text-decoration: underline wavy;
+    }
+
+    a:hover {
+      color: #ff00ff;
+      text-decoration: underline;
+    }
+
+    .star {
+      color: #ffff00;
+      font-size: 1.3em;
+    }
+
+    .scoreboard-note {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55em;
+      color: #aaaaaa;
+      margin-top: 8px;
+      display: block;
+    }
+
+    /* === GALLERY === */
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 14px;
+      justify-content: center;
+    }
+
+    .gallery-item {
+      border: 2px solid #00ffff;
+      background: #000;
+      padding: 6px;
+      flex: 1 1 240px;
+      max-width: 420px;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      display: block;
+      image-rendering: pixelated;
+    }
+
+    .gallery-item .cap {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45em;
+      color: #00ffff;
+      text-align: center;
+      padding-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+
+    <header>
+      <h1>E=mc&#178;+AI&#179;</h1>
+      <div class="tagline">
+        &#128187; we do CTF sometimes &nbsp;|&nbsp; <span class="star">&#9733;</span> sweden's finest <span class="star">&#9733;</span>
+      </div>
+      <div class="buttons-row" style="justify-content:center; margin-top:14px;">
+        <img src="https://cyber.dabamos.de/88x31/animbat.gif" alt="" width="88" height="31">
+        <img src="https://cyber.dabamos.de/88x31/win95.gif" alt="" width="88" height="31">
+        <img src="https://cyber.dabamos.de/88x31/mathcom.gif" alt="" width="88" height="31">
+        <img src="https://cyber.dabamos.de/88x31/valid-xhtml10.gif" alt="" width="88" height="31">
+        <img src="https://cyber.dabamos.de/88x31/crazyfrog.gif" alt="" width="88" height="31">
+        <img src="https://cyber.dabamos.de/88x31/letsnotencrypt.gif" alt="" width="88" height="31">
+      </div>
+    </header>
+
+    <marquee behavior="scroll" direction="left">
+      &nbsp;&nbsp;&nbsp; *** E=mc&#178;+AI&#179; *** CTF team *** hacking and stuff *** physics + AI *** UNDUTMANING 2026 3RD PLACE *** BEST SWEDISH TEAM ***&nbsp;&nbsp;&nbsp;
+    </marquee>
+
+    <div class="container">
+
+      <!-- ACHIEVEMENT -->
+      <div class="achievement-box">
+        <span class="place">#3</span>
+        <span class="event-name">Undutmaning 2026</span>
+        <div class="sub">
+          <span class="swedish-flag">&#127480;&#127466;</span>
+          <strong>Best Swedish Team</strong>
+          <span class="swedish-flag">&#127480;&#127466;</span>
+          <br>
+          <small>Swedish CTF organized by FRA, MUST and S&Auml;PO</small>
+          <br>
+          <a href="https://undutmaning.ctfd.io/scoreboard" target="_blank" rel="noopener">scoreboard link</a>
+          <span class="scoreboard-note">(scoreboard may be closed — trust us, we got 3rd)</span>
+        </div>
+      </div>
+
+      <!-- ABOUT -->
+      <div class="section" data-title="/// ABOUT ///">
+        <h2>What is this</h2>
+        <div class="about-text">
+          <p>
+            <span class="blink">&#9608;</span>
+            We are <strong style="color:#ffff00;">E=mc&#178;+AI&#179;</strong>, a CTF team.
+            We solve challenges involving cryptography, web exploitation, reverse engineering,
+            pwn, and other things that sound complicated but sometimes aren't.
+          </p>
+          <p>
+            The name comes from the famous equation
+            <em>E = mc&#178;</em> (Einstein's mass-energy equivalence) combined with
+            <em>AI&#179;</em> (because AI is everywhere now and we thought it sounded cool).
+          </p>
+          <p>
+            We competed in <strong>Undutmaning 2026</strong> — a Swedish national CTF organized
+            by FRA, MUST and S&Auml;PO — and placed <strong style="color:#ff8800;">3rd overall</strong>,
+            making us the <strong style="color:#ffff00;">best Swedish team</strong> in the competition.
+          </p>
+        </div>
+      </div>
+
+      <!-- TEAM MEMBERS -->
+      <div class="section" data-title="/// TEAM ///">
+        <h2>Team Members</h2>
+        <div class="members-grid">
+          <div class="member-card">
+            <span class="avatar">&#129489;&#8205;&#128187;</span>
+            <span class="name">Joshua Andersson</span>
+            <div class="bio">pays for github gopilot pro. has cuda and 64gb ram</div>
+          </div>
+          <div class="member-card">
+            <span class="avatar">&#128373;&#65039;</span>
+            <span class="name">Rasmus Hulthe</span>
+            <div class="bio">the web whisperer. doesnt pay for AI</div>
+          </div>
+          <div class="member-card">
+            <span class="avatar">&#129302;</span>
+            <span class="name">Harry Zhang</span>
+            <div class="bio">has codex 🙏</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <div class="section" data-title="/// RESULTS ///">
+        <h2>Competition History</h2>
+        <table style="width:100%; border-collapse:collapse; color:#ccffcc; font-size:0.9em;">
+          <thead>
+            <tr style="color:#ffff00; border-bottom:2px solid #00ff00;">
+              <th style="text-align:left; padding:6px 8px;">Event</th>
+              <th style="text-align:left; padding:6px 8px;">Year</th>
+              <th style="text-align:left; padding:6px 8px;">Place</th>
+              <th style="text-align:left; padding:6px 8px;">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px dashed #226622;">
+              <td style="padding:6px 8px;"><a href="https://undutmaning.ctfd.io/scoreboard" target="_blank" rel="noopener">Undutmaning</a></td>
+              <td style="padding:6px 8px;">2026</td>
+              <td style="padding:6px 8px; color:#ff8800; font-weight:bold;">3rd &#127942;</td>
+              <td style="padding:6px 8px; color:#ffff00;">Best Swedish Team &#127480;&#127466;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SCREENSHOTS -->
+      <div class="section" data-title="/// SCREENSHOTS ///">
+        <h2>@antrophic pls sponsor us</h2>
+        <div class="gallery">
+          <div class="gallery-item">
+            <img src="{{ site.baseurl }}/images/loc.png">
+          </div>
+          <div class="gallery-item">
+            <img src="{{ site.baseurl }}/images/rate%20limit.png">
+          </div>
+          <div class="gallery-item">
+            <img src="{{ site.baseurl }}/images/rate%20limit%202.png">
+          </div>
+        </div>
+      </div>
+
+      <!-- PROMPT VERBATIM -->
+      <div class="prompt-section">
+        <div class="prompt-text">generate a basic CTF team page for the team E=mc^2+AI^3. Please tile the background with the original E=mc^2 image in the current working directory. it should be hostable via github pages. dont try too hard, make it a little ugly. use jekyll
+
+the three team members are joshua andersson, rasmus hulthe and harry zhang
+
+take inspiration from
+https://kebab.team/
+https://royalroppers.team/
+
+
+highlight that we got third place here, and was best swedish team
+
+https://undutmaning.ctfd.io/scoreboard
+
+integrate this prompt into the design verbatim somewhere.
+make no mistakes</div>
+      </div>
+
+      <!-- FOOTER BUTTONS -->
+      <div class="buttons-row" style="justify-content:center;">
+        <img src="https://cyber.dabamos.de/88x31/amazon2.gif" alt="" width="88" height="31">
+        <img src="https://cyber.dabamos.de/88x31/gratis-sex-fotos.gif" alt="" width="88" height="31">
+        <img src="https://cyber.dabamos.de/88x31/jobsritchie.gif" alt="" width="88" height="31">
+        <img src="https://cyber.dabamos.de/88x31/discord-no-way.gif" alt="" width="88" height="31">
+        <img src="https://cyber.dabamos.de/88x31/turkbox.gif" alt="" width="88" height="31">
+        <img src="https://cyber.dabamos.de/88x31/wnafricandaily.gif" alt="" width="88" height="31">
+        <img src="https://cyber.dabamos.de/88x31/norton.gif" alt="" width="88" height="31">
+      </div>
+
+    </div><!-- /container -->
+
+    <footer>
+      <p>E=mc&#178;+AI&#179; &copy; 2026 &nbsp;|&nbsp; made with &#128187; and &#9749; &nbsp;|&nbsp; <span class="blink">&#9608;</span></p>
+      <p style="font-size:0.75em; color:#336633;">E = mc&#178; + AI&#179; &nbsp; &mdash; &nbsp; the math checks out</p>
+    </footer>
+
+  </div><!-- /overlay -->
+</body>
+</html>
